@@ -26,6 +26,23 @@ ws.onmessage = function(e){
     			str +='<p>'+e+'</p>';
     		});
     		$('.left_nav').html(str);
+    		var str ='';
+    		var check = false;
+    		$.each(data.room,function(i,e){
+    			if(!check && e.host == name){
+    				check = true;
+    			}
+    			str += '<div class="room"><p>number:'+i+'</p>';
+    			str += '<p>name:'+e.name+'</p>';
+    			str += '<p>total:'+e.total+'</p>';
+    			str += '<p>limit:'+e.limit+'</p>';
+    			str += '</div>';
+    		});
+    		$('.hall').html(str);
+    		var str = '<button id="create">建立房間</button>';
+    		if(!check){
+    			$('.fun').html(str);
+    		}
     	break;
     	case 'close':
     		alert('名稱重複,請重新命名');
@@ -59,6 +76,11 @@ $(document).ready(function(){
 	// 	ws.send(game);
 	// });
 });
+$(document).on('click','#create',function(){
+	$(this).remove();
+	data.action = 'create';
+	ws.send(JSON.stringify(data));
+})
 
 </script>
 <style type="text/css">
@@ -73,6 +95,12 @@ $(document).ready(function(){
 	.hall{
 		float: left;
 	}
+	.room{
+		border: 1px solid;
+	    text-align: center;
+	    width: 200px;
+	    margin: 0 15px 10px 15px;
+	}
 </style>
 </head>
 
@@ -81,7 +109,7 @@ $(document).ready(function(){
  	<div class="nav">
  		大廳列表
  		<div class="fun">
- 			<button id="create">建立房間</button>
+ 			
  		</div>
  	</div>
  	<div class="left_nav"></div>

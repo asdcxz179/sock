@@ -75,12 +75,25 @@
 						$this->hall[$this->search_index($this->client)] = $data['id'];
 						$return['action'] = 'list';
 						$return['data'] = $this->hall;
+						$return['room'] = $this->room;
 						$this->_logs("socket_logs.txt","使用者:".$data['id']."進入大廳");
 						$this->_logs("socket_logs.txt","大廳人員:".json_encode($this->hall));
 					}
 					break;
 				case 'create':
-
+					$room_number = substr(md5(uniqid(rand(), true)),0,10);
+					$limit = 6;
+					$user = $this->hall[$this->search_index($this->client)];
+					unset($this->hall[$this->search_index($this->client)]);
+					$this->room[$room_number]['name'] = "五子棋";
+					$this->room[$room_number]['host'] = $user;
+					$this->room[$room_number]['limit'] = $limit;
+					$this->room[$room_number]['people'][] = $user;
+					$this->room[$room_number]['total'] = count($this->room[$room_number]['people']);
+					$this->_logs("socket_logs.txt","使用者:".$user."建立房間,編號:".$room_number);
+					$return['action'] = 'list';
+					$return['data'] = $this->hall;
+					$return['room'] = $this->room;
 				break;
 				case 'join':
 
@@ -88,6 +101,7 @@
 				case 'leave':
 					$return['action'] = 'list';
 					$return['data'] = $this->hall;
+					$return['room'] = $this->room;
 				break;
 				default:
 					$return = [];
