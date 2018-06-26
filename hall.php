@@ -48,16 +48,16 @@ function into(){
 }
 $(document).ready(function(){
 	
-	$('#start').click(function(){
-		id = Math.floor(Math.random()*10000);
-		room = true;
-		player = 'master';
-		players++;
-		game = '{"player":"'+player+'","action":"create"}';
-		$('#room_number').text("房間代碼:"+id);
-		ready = 1;
-		ws.send(game);
-	});
+	// $('#start').click(function(){
+	// 	id = Math.floor(Math.random()*10000);
+	// 	room = true;
+	// 	player = 'master';
+	// 	players++;
+	// 	game = '{"player":"'+player+'","action":"create"}';
+	// 	$('#room_number').text("房間代碼:"+id);
+	// 	ready = 1;
+	// 	ws.send(game);
+	// });
 });
 
 </script>

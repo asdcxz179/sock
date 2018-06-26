@@ -173,7 +173,7 @@
 		    }
 		    elseif($length >= 65536)
 		    {
-		        $header = pack('CCNN', $b1, 127, $length);
+		        $header = pack('CCNN', $b1, 127,0, $length);
 		    }
 
 			if(is_array($target)){
