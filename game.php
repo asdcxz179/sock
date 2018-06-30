@@ -36,16 +36,18 @@ ws.onmessage = function(e){
     			str += '<p>name:'+e.name+'</p>';
     			str += '<p>total:'+e.total+'</p>';
     			str += '<p>limit:'+e.limit+'</p>';
-
-    			if(Object.values(e.people).indexOf(name)>-1 ){
-    				$('#create').remove();
-    				if(e.host == name){
-    					str += '<button id="start" data-num="'+i+'">開始遊戲</button>';	
-    				}
-    				str += '<button id="leave_room" data-num="'+i+'">離開房間</button>';
-    			}else{
-    				str += '<button id="join" data-num="'+i+'">加入房間</button>';
+    			if(!e.status){
+    				if(Object.values(e.people).indexOf(name)>-1 ){
+	    				$('#create').remove();
+	    				if(e.host == name){
+	    					str += '<button id="start" data-num="'+i+'">開始遊戲</button>';	
+	    				}
+	    				str += '<button id="leave_room" data-num="'+i+'">離開房間</button>';
+	    			}else{
+	    				str += '<button id="join" data-num="'+i+'">加入房間</button>';
+	    			}
     			}
+    			
     			str += '</div>';
     		});
     		$('.hall').html(str);
@@ -97,6 +99,13 @@ $(document).on('click','#create',function(){
 $(document).on('click','#join',function(){
 	$(this).remove();
 	data.action = 'join';
+	data.num = $(this).data('num');
+	ws.send(JSON.stringify(data));
+})
+
+$(document).on('click','#start',function(){
+	$(this).remove();
+	data.action = 'start';
 	data.num = $(this).data('num');
 	ws.send(JSON.stringify(data));
 })

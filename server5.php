@@ -104,6 +104,7 @@
 					$this->_logs($this->log,$this->hall[$index]);
 					unset($this->hall[$index]);
 					$this->room[$room_number]['name'] = "五子棋";
+					$this->room[$room_number]['status'] = 0;
 					$this->room[$room_number]['host'] = $user;
 					$this->room[$room_number]['limit'] = $limit;
 					$this->room[$room_number]['people'][$index] = $user;
@@ -125,6 +126,14 @@
 					}else{
 						$this->_logs($this->log,"使用者:".$user."加入房間失敗,編號:".$room_number.",人數已滿");
 					}
+					$return['action'] = 'list';
+					$return['data'] = $this->hall;
+					$return['room'] = $this->room;
+				break;
+				case 'start':
+					$room_number = $data['num'];
+					$this->room[$room_number]['status'] = 1;
+					$this->_logs($this->log,"房間編號:".$room_number.",開始遊戲");
 					$return['action'] = 'list';
 					$return['data'] = $this->hall;
 					$return['room'] = $this->room;
