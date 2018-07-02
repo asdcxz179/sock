@@ -267,8 +267,9 @@
 		}
 
 	}
+	include('config.php');
 
-	$socket = new Socket('192.168.117.111','1024');
+	$socket = new Socket($server['ip'],$server['port']);
 	$socket->run();
 
 
